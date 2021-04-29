@@ -1,0 +1,156 @@
+[
+	{
+		"question": "What's the output?",
+		"code":
+			"function sayHi() {\n  console.log(name);\n  console.log(age);\n  var name =\"Lydia\";\n  let age = 21;\n}\n\nsayHi();",
+		"choices": [
+			{
+				"text": "`Lydia` and `undefined`",
+                "id": 1
+			},
+			{
+				"text": "`Lydia` and `ReferenceError`",
+                "id": 2
+			},
+			{
+				"text": "`ReferenceError` and `21`",
+                "id": 3
+			},
+			{
+				"text": "`undefined` and `ReferenceError`",
+                "id": 4
+			}
+		],
+        "correctAnswer": 4,
+		"explanation":
+			"Within the function, we first declare the `name` variable with the `var` keyword. This means that the variable gets hoisted (memory space is set up during the creation phase) with the default value of `undefined`, until we actually get to the line where we define the variable. We haven't defined the variable yet on the line where we try to log the `name` variable, so it still holds the value of `undefined`.\n\nVariables with the `let` keyword (and `const`) are hoisted, but unlike `var`, don't get <i>initialized</i>. They are not accessible before the line we declare (initialize) them. This is called the \"temporal dead zone\". When we try to access the variables before they are declared, JavaScript throws a `ReferenceError`."
+	},
+	{
+		"question": "What's the output?",
+		"code":
+			"for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 1);\n}\n\nfor (let i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 1);\n}",
+		"choices": [
+			{
+				"text": "`0 1 2` and `0 1 2`",
+                "id": 1
+			},
+			{
+				"text": "`0 1 2` and `3 3 3`",
+                "id": 2
+			},
+			{
+				"text": "`3 3 3` and `0 1 2`",
+                "id": 3
+			}
+		],
+        "correctAnswer": 3,
+		"explanation":
+			"Because of the event queue in JavaScript, the `setTimeout` callback function is called _after_ the loop has been executed. Since the variable `i` in the first loop was declared using the `var` keyword, this value was global. During the loop, we incremented the value of `i` by `1` each time, using the unary operator `++`. By the time the `setTimeout` callback function was invoked, `i` was equal to `3` in the first example.\n\nIn the second loop, the variable `i` was declared using the `let` keyword: variables declared with the `let` (and `const`) keyword are block-scoped (a block is anything between `{ }`). During each iteration, `i` will have a new value, and each value is scoped inside the loop."
+	},
+	{
+		"question": "What's the output?",
+		"code":
+			"const shape = {\n  radius: 10,\n  diameter() {\n    return this.radius * 2;\n  },\n  perimeter: () => 2 * Math.PI * this.radius\n};\n\nconsole.log(shape.diameter());\nconsole.log(shape.perimeter());",
+		"choices": [
+			{
+				"text": "`20` and `62.83185307179586`",
+                "id": 1
+			},
+			{
+				"text": "`20` and `NaN`",
+                "id": 2
+			},
+			{
+				"text": "`20` and `63`",
+                "id": 3
+			},
+			{
+				"text": "`NaN` and `63`",
+                "id": 4
+			}
+		],
+        "correctAnswer": 2,
+		"explanation":
+			"Note that the value of `diameter` is a regular function, whereas the value of `perimeter` is an arrow function.\n\nWith arrow functions, the `this` keyword refers to its current surrounding scope, unlike regular functions! This means that when we call `perimeter`, it doesn't refer to the shape object, but to its surrounding scope (window for example).\n\nThere is no value `radius` on that object, which returns `undefined`."
+	},
+	{
+		
+		"question": "What's the output?",
+		"code": "+true;\n!Lydia",
+		"choices": [
+			{
+				"text": "`1` and `false`",
+                "id": 1
+			},
+			{
+				"text": "`false` and `NaN`",
+                "id": 2
+			},
+			{
+				"text": "`false` and `false`",
+                "id": 3
+			}
+		],
+        "correctAnswer": 1,
+		"explanation":
+			"The unary plus tries to convert an operand to a number. `true` is `1`, and `false` is `0`.\n\nThe string `'Lydia'` is a truthy value. What we're actually asking, is \"is this truthy value falsy?\". This returns `false`."
+	},
+	{
+		"question": "5. Which one is true?",
+		"code":
+			"const bird = {\n  size: \"small\"\n};\n\nconst mouse = {\n  name: \"Mickey\",\n  small: true\n};",
+		"choices": [
+			{
+				"text": "`mouse.bird.size` is not valid",
+                "id": 1
+			},
+			{
+				"text": "`mouse[bird.size]` is not valid",
+                "id": 2
+			},
+			{
+				"text": "'`mouse[bird[\"size\"]]` is not valid'",
+                "id": 3
+			},
+			{
+				"text": "All of them are valid",
+                "id": 4
+			}
+		],
+        "correctAnswer": 1,
+		"explanation":
+			"In JavaScript, all object keys are strings (unless it's a Symbol). Even though we might not _type_ them as strings, they are always converted into strings under the hood."
+	},
+	{
+		"question": "6. What's the output?",
+		"code":
+			"let c = { greeting: \"Hey!\" };\nlet d;\n\nd = c;\nc.greeting = \"Hello\";\nconsole.log(d.greeting);",
+		"choices": [
+			{
+				"text": "`Hello`",
+                "id": 1
+			},
+			{
+				"text": "`Hey!`",
+                "id": 2
+			},
+			{
+				"text": "`undefined`",
+                "id": 3
+			},
+			{
+				"text": "`ReferenceError`",
+                "id": 4
+			},
+			{
+				"text": "`TypeError`",
+                "id": 5
+			}
+		],
+        "correctAnswer": 1,
+		"explanation":
+			"In JavaScript, all objects interact by _reference_ when setting them equal to each other.\n\nFirst, variable `c` holds a value to an object. Later, we assign `d` with the same reference that `c` has to the object.\n\n<img src=\"https://i.imgur.com/ko5k0fs.png"
+	}
+
+	
+]
