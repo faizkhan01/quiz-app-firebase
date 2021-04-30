@@ -23,10 +23,10 @@ const getAllQuestions = async () => {
 
 const getRandomQuestions = async () => {
   const questions = await getAllQuestions();
-  const randomQuestions = sampleSize(questions, 10);
-  return randomQuestions.map((question) => ({
-    ...question,
-    choices: shuffle(question.choices),
+  const randomQuestions = sampleSize(questions, 6);
+  return randomQuestions.map((questions) => ({
+    ...questions,
+    choices: shuffle(questions.choices),
   }));
 };
 

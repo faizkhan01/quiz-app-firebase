@@ -44,6 +44,17 @@ const Question = ({ data, currentQuestionIndex, selectAnswer }) => {
   const [disableChoices, setDisableChoices] = useState(false);
   const classes = useStyles();
 
+  useEffect(() => {
+    setSelectedChoice(null);
+    setDisableChoices(false);
+  }, [data]);
+
+  const onChoiceSelect = (choice) => {
+    setSelectedChoice(choice.id);
+    selectAnswer(choice.id);
+    setDisableChoices(true);
+  };
+
   const renderChoice = (choice, index) => {
     let className = "";
     if (selectedChoice === choice.id) {
@@ -67,8 +78,19 @@ const Question = ({ data, currentQuestionIndex, selectAnswer }) => {
         disabled={disableChoices}
         key={choice.id}
       >
-        {index + 1} {choice.text}
+        ({index + 1}) {choice.text}
       </Button>
+    );
+  };
+
+  const renderExplanation = () => {
+    if (!selectedChoice || !data.explanation) {
+      return null;
+    }
+    return (
+      <Grid item xs={12} className={classes.explanation}>
+        {data.explanation}
+      </Grid>
     );
   };
 
