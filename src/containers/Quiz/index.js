@@ -50,7 +50,7 @@ const Quiz = () => {
       return (
         <div>
           <Typography variant="h4" component="h1" className={classes.result}>
-            All Done!! You got {score} out of {questions.lenght} ({percentage}%)
+            All Done!! You got {score} out of {questions.length} ({percentage}%)
             correct!!
           </Typography>
         </div>

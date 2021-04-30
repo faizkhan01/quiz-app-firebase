@@ -1,5 +1,8 @@
-import { sampleSize, shuffle } from "react";
-import firebase from "firebase/app";
+import sampleSize from "lodash/sampleSize";
+import shuffle from "lodash/shuffle";
+// import firebase from "firebase/app";
+import "firebase/database";
+import { firebaseApp } from "../containers/FirebaseConfig/FirebaseConfig";
 
 let cachedQuestions;
 
@@ -14,7 +17,8 @@ const getAllQuestions = async () => {
     return cachedQuestions;
   }
 
-  const database = firebase.database();
+  const fbApp = firebaseApp;
+  const database = fbApp.database();
   const snapshot = await database.ref("/quiz/questions").once("value");
   const questions = transformToArray(snapshot.val());
   cachedQuestions = questions;
